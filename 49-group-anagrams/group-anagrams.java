@@ -10,11 +10,11 @@ class Solution {
             hm.get(key).add(str);
         }
         //for()
-        List<List<String>> res = new ArrayList<>();
-        for(List<String> list: hm.values()) {
-            res.add(list);
-        }
-        return res;
+        return new ArrayList<>(hm.values());
+        // for(List<String> list: hm.values()) {
+        //     res.add(list);
+        // }
+        //return res;
 
     }
 }
