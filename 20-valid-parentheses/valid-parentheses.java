@@ -14,13 +14,13 @@ class Solution {
                 }
                 char top = st.peek();
                 st.pop();
-                if(c == ')' && top != '(') {
-                    return false;
-                }
-                if(c == '}' && top != '{') {
-                    return false;
-                }
-                if(c == ']' && top != '[') {
+                if(c == ')' && top == '(') {
+                    continue;
+                } else if(c == '}' && top == '{') {
+                    continue;
+                } else if(c == ']' && top == '[') {
+                    continue;
+                } else {
                     return false;
                 }
             }
