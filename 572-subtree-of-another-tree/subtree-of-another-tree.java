@@ -13,35 +13,51 @@
  *     }
  * }
  */
+
+
+
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
 
         if(root == null) {
             return false;
         }
-
-        if(isSameTree(root, subRoot)) {
+        Set<String> hs = new HashSet<>();
+        isSameTreeHelper(root, hs);
+        if(hs.contains(isSameTreeHelper2(subRoot))) {
             return true;
         }
+        return false;
 
-        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
 
-    public boolean isSameTree(TreeNode p, TreeNode q) {
+    public String isSameTreeHelper(TreeNode root, Set<String> hs) {
 
-        if(p == null && q == null) {
-            return true;
+        if(root == null) {
+            return "N";
         }
 
-        if(p == null  &&  q != null) {
-            return false;
-        }
+        String left = isSameTreeHelper(root.left, hs);
+        String right = isSameTreeHelper(root.right, hs);
 
-        if(p != null  &&  q == null) {
-            return false;
-        }
-
-        return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        hs.add("( " + left + " " + root.val +  " " + right + ")");
+        return "( " + left + " " + root.val +  " " + right + ")";
         
     }
+
+    public String isSameTreeHelper2(TreeNode root) {
+
+        if(root == null) {
+            return "N";
+        }
+
+        String left = isSameTreeHelper2(root.left);
+        String right = isSameTreeHelper2(root.right);
+
+        //hs.add(left + " " + root.val +  " " + right);
+        return "( " + left + " " + root.val +  " " + right + ")";
+        
+    }
+
+
 }
