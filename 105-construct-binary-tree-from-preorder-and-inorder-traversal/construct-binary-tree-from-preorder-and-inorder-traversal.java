@@ -30,11 +30,11 @@ class Solution {
         int preIndex = findIndex(inorder, preorder[index]);
 
 
-        if(preIndex == -1) {
-            return null; 
-        }
+        // if(preIndex == -1) {
+        //     return null; 
+        // }
 
-        
+
         TreeNode root = new TreeNode(preorder[index++]);
 
         root.left = buildTreeHelper(preorder, inorder, l , preIndex - 1);
