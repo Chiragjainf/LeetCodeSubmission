@@ -33,14 +33,16 @@ class Solution {
 
         vis[r][c] = true;
 
-        boolean res = existHelper(board, word, r + 1, c, m, n, i + 1, vis)
-        || existHelper(board, word, r - 1, c, m, n, i + 1, vis)
-        || existHelper(board, word, r , c + 1, m, n, i + 1, vis)
-        || existHelper(board, word, r , c - 1, m, n, i + 1, vis);
+        if(existHelper(board, word, r + 1, c, m, n, i + 1, vis)) {
+            return true;
+        }
+        if(existHelper(board, word, r - 1, c, m, n, i + 1, vis)) return true;
+        if(existHelper(board, word, r , c + 1, m, n, i + 1, vis)) return true;
+        if(existHelper(board, word, r , c - 1, m, n, i + 1, vis)) return true;
 
         vis[r][c] = false;
 
-        return res;
+        return false;
 
 
 
