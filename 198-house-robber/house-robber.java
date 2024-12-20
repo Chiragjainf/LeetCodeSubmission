@@ -1,7 +1,16 @@
 class Solution {
     public int rob(int[] nums) {
-        Integer dp[] = new Integer[nums.length];
-        return robHelper(nums, 0, dp);
+        //Integer dp[] = new Integer[nums.length];
+        //return robHelper(nums, 0, dp);
+
+        int incl = 0, excl = 0, res = 0;
+
+        for(int i = 0; i < nums.length; i++) {
+            int temp = Math.max(incl + nums[i], excl);
+            incl = excl;
+            excl = temp;
+        }
+        return Math.max(incl, excl);
     }
 
 
