@@ -1,60 +1,38 @@
 class Solution {
 
-
     public int coinChange(int[] coins, int amount) {
-
-        
-        int dp[] = new int[amount + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-
-        dp[0] = 0;
-
-
-
-
-
-        for(int i = 1;  i <= amount; i++) {
-            for(int j = 0; j < coins.length; j++) {
-                if(coins[j] <= i) {
-                    dp[i] = Math.min(dp[i], (dp[i - coins[j]] == Integer.MAX_VALUE) ? Integer.MAX_VALUE : dp[i - coins[j]] + 1);
-                }
-            }
-        }
-
-
-
-        //Arrays.fill(dp,)
-
-        //coinChangeHelper(coins, amount, 0, dp);
-
-        if(dp[amount] == Integer.MAX_VALUE) {
-            return -1;
-        }
-
-        return dp[amount];
+        Integer dp[][] = new Integer[coins.length] [amount + 1];
+        int res = helper(coins, amount, 0, coins.length, 0, dp);
+        return res == 10001 ? -1 : res; 
     }
 
 
-    public int coinChangeHelper(int[] coins, int amount, int i, int dp[]) {
+    public int helper(int[] coins, int amount, int i, int n, int sum, Integer dp[][]) {
 
+        if( i >= n || sum > amount) {
+            return 10001;
+        }
 
-        if(amount == 0) {
+        if(sum == amount) {
             return 0;
         }
 
+        //System.out.println(sum);
 
-        if( i == coins.length || amount < 0) {
-            return 1000000;
-        }
-        
-        if(dp[amount] != 0) {
-            return dp[amount];
+        if(dp[i][sum] != null) {
+            return dp[i][sum];
         }
 
-        dp[amount] = Math.min(1 + coinChangeHelper(coins, amount - coins[i], i, dp), 
-        coinChangeHelper(coins, amount, i+1, dp));
 
-        return dp[amount];
+        int x = 10001;
+        if (coins[i] <= amount ) {
+            x = 1 + helper(coins, amount, i, n, sum + coins[i], dp);
+        }
+        int y = helper(coins, amount, i + 1, n, sum, dp);
+
+        return dp[i][sum] = Math.min(x, y);
         
     }
+
+
 }
