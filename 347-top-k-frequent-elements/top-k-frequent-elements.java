@@ -7,18 +7,31 @@ class Solution {
             freq.put(n, freq.getOrDefault(n, 0) + 1);
         }
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> freq.get(b) - freq.get(a));
+        int n = nums.length;
 
-        for(int key : freq.keySet()) {
-            pq.add(key);
+        List<Integer> bucket[] = new List[n + 1];
+
+        for(int i = 0; i <= n; i++) {
+            bucket[i] = new ArrayList<>();
+        }
+
+        for(Map.Entry<Integer, Integer> entry: freq.entrySet()) {
+            bucket[entry.getValue()].add(entry.getKey());
         }
 
         int res[] = new int[k];
-
-        for(int i = 0; i < k; i++) {
-            res[i] = pq.poll();
+        int j = 0;
+        
+        for(int i = n; i >= 0; i--) {
+            for(int num : bucket[i]) {
+                res[j++] = num;
+                if(j == k) {
+                    return res;
+                }
+            }
         }
 
         return res;
-    }
+
+    } 
 }
