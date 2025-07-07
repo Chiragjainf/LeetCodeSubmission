@@ -7,17 +7,16 @@ class Solution {
             freq.put(n, freq.getOrDefault(n, 0) + 1);
         }
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> freq.get(b) - freq.get(a));
 
         for(int key : freq.keySet()) {
-            pq.add(new int[]{key, freq.get(key)});
+            pq.add(key);
         }
 
         int res[] = new int[k];
 
         for(int i = 0; i < k; i++) {
-            int temp[] = pq.poll();
-            res[i] = temp[0];
+            res[i] = pq.poll();
         }
 
         return res;
