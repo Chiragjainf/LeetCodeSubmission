@@ -30,9 +30,9 @@ public class Solution {
 
         slow = head;
 
-        while(slow != end) {
+        while(slow != fast) {
             slow = slow.next;
-            end = end.next;
+            fast = fast.next;
         }
         
         return slow;
