@@ -7,10 +7,10 @@ class Solution {
         while(l <= r) {
             int mid = l + (r - l) / 2;
             res = Math.min(res, nums[mid]);
-            if(nums[mid] < nums[0]) {
-                r--;
-            } else {
+            if(nums[mid] >= nums[0]) {
                 l++;
+            } else {
+                r--;
             }
         }
 
