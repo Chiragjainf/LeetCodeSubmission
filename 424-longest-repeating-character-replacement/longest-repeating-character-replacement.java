@@ -13,7 +13,7 @@ class Solution {
             if((r - l + 1 - maxFreq) > k ) {
                 char t = s.charAt(l);
                 hm.put(t, hm.getOrDefault(t, 0) - 1);
-                maxFreq =  Math.max(hm.get(t), hm.get(c));
+                //maxFreq =  Math.max(hm.get(t), hm.get(c));
                 l++;
             }
             res = Math.max(res, r - l + 1);
