@@ -10,32 +10,29 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-         reorderListHelper(head,head);
-         return;
+        reorderListHelper(head, head);
     }
 
-    public ListNode reorderListHelper(ListNode root, ListNode curr) {
-        
-        if(curr == null) {
-            return root;
+     public ListNode reorderListHelper(ListNode head, ListNode last) {
+
+        if(last == null) {
+            return head;
         }
 
-        root = reorderListHelper(root , curr.next);
+        ListNode first = reorderListHelper(head, last.next);
 
-        if (root == null) {
+        if(first == null) {
             return null;
+        } else if(first == last || first.next == last) {
+            last.next = null;
+            return null;
+        } else {
+            ListNode next = first.next;
+            first.next = last;
+            last.next = next;
+            //System.out.println(next.val + " " + last.val);
+            return next;
         }
         
-        ListNode temp = null;
-        if(root == curr || root.next == curr) {
-            curr.next = null;
-        }
-        else {
-            temp = root.next;
-            root.next = curr;
-            curr.next = temp;
-        }
-        
-        return temp;
     }
 }
