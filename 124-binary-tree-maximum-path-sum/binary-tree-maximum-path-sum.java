@@ -31,8 +31,8 @@ class Solution {
         int right = maxPathSumHelper(root.right);
 
         ans = Math.max(ans , root.val + left + right);
-        ans = Math.max(ans , root.val + Math.max(left , right));
-        ans = Math.max(ans , root.val );
+        ans = Math.max(ans , root.val + Math.max(0, Math.max(left , right)));
+        //ans = Math.max(ans , root.val );
 
         return Math.max(root.val, root.val + Math.max(left , right));
 
