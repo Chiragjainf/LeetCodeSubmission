@@ -14,16 +14,15 @@
  * }
  */
 class Solution {
-
-    int res = Integer.MIN_VALUE;
+    int ans = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
-
         maxPathSumHelper(root);
-        return res;
-        
+        return ans;
     }
 
     public int maxPathSumHelper(TreeNode root) {
+        
+
         if(root == null) {
             return 0;
         }
@@ -31,12 +30,11 @@ class Solution {
         int left = maxPathSumHelper(root.left);
         int right = maxPathSumHelper(root.right);
 
-        int currSum = root.val;
-        int temp = Math.max(0, Math.max(left + right, Math.max(left ,right)));
+        ans = Math.max(ans , root.val + left + right);
+        ans = Math.max(ans , root.val + Math.max(left , right));
+        ans = Math.max(ans , root.val );
 
-        res = Math.max(res, currSum + temp);
-
-        return root.val + Math.max(0,  Math.max(left ,right));
+        return Math.max(root.val, root.val + Math.max(left , right));
 
     }
 }
