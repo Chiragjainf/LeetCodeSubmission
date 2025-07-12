@@ -42,7 +42,7 @@ class Solution {
                 t.add(temp.val);
             }
 
-            res.add(new ArrayList(t));
+            res.add(t);
         }
 
         return res;
