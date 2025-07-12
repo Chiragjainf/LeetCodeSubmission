@@ -15,15 +15,31 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if(isSameTree(root, subRoot)) {
-            return true;
-        }
+       Set<String> hs1 = new HashSet<>();
+       Set<String> hs2 = new HashSet<>();
+       constructTree(root, hs1);
 
+       String subRootPrefix = constructTree(subRoot, hs2);
+
+       if(hs1.contains(subRootPrefix)) {
+        return true;
+       }
+
+       return false;
+    }
+
+    public String constructTree(TreeNode root, Set<String> hs) {
         if(root == null) {
-            return false;
+            return "(N";
         }
 
-        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        String left = constructTree(root.left, hs);
+        String right = constructTree(root.right, hs);
+
+        hs.add(left + root.val + right + ")");
+
+        return left + root.val + right + ")";
+
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
