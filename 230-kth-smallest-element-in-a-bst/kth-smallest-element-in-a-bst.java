@@ -14,35 +14,34 @@
  * }
  */
 class Solution {
-
-    static int ans = -1;
-    int cnt = 0;
-
+    int cnt = 0, ans = -1;
+    boolean flag = false;
     public int kthSmallest(TreeNode root, int k) {
-
-        if(root == null) {
-            return -1;
-        }
-
-        kthSmallestH(root, k);
+        kthSmallestHelper(root, k);
         return ans;
     }
 
-    public int kthSmallestH(TreeNode root, Integer k) {
-
+    public int kthSmallestHelper(TreeNode root, int k) {
         if(root == null) {
-            return -1;
+            return 0;
         }
 
-        kthSmallestH(root.left , k);
+        kthSmallestHelper(root.left, k);
 
         cnt++;
 
-        if( k == cnt) {
+        if(flag == false && cnt == k) {
             ans = root.val;
+            flag = true;
         }
 
-        kthSmallestH(root.right , k);
-        return -1;
+        if(flag == true) {
+            return 0;
+        }
+
+        kthSmallestHelper(root.right, k);
+        
+        return 0;
+
     }
 }
