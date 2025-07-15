@@ -1,19 +1,23 @@
 class Solution {
     public int rob(int[] nums) {
-        Integer dp[] = new Integer[nums.length];
-        Integer dp2[] = new Integer[nums.length];
-        if(nums.length == 1) {
+        
+        int n = nums.length;
+
+        if(n == 1) {
             return nums[0];
         }
-        int x = robHelper(nums, 0, nums.length - 1, dp);
-        int y = robHelper(nums, 1, nums.length, dp2);
-        return Math.max(x, y);
+
+        Integer dp1[] = new Integer[n + 1];
+        int first = helper(nums, 0 , n - 1, dp1);
+        Integer dp2[] = new Integer[n + 1];
+        int second = helper(nums, 1 , n, dp2);
+
+        return Math.max(first , second);
     }
 
-
-    public int robHelper(int[] nums, int i, int n ,Integer dp[]) {
-
-        if( i >= n) {
+    public int helper(int[] nums, int i, int n, Integer dp[]) {
+        
+        if(i >= n) {
             return 0;
         }
 
@@ -21,11 +25,11 @@ class Solution {
             return dp[i];
         }
 
+        int take = nums[i] + helper(nums, i + 2, n, dp);
 
-        int incl = nums[i] + robHelper(nums, i + 2, n,  dp);
-        int excl = robHelper(nums, i + 1, n,  dp);
+        int nontake = helper(nums, i + 1, n, dp);
 
-        return dp[i] = Math.max(incl, excl);
-        
+
+        return dp[i] = Math.max(take, nontake);
     }
 }
