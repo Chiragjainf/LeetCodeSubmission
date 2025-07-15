@@ -1,11 +1,13 @@
 class Solution {
     public int climbStairs(int n) {
-        Integer dp[] = new Integer[n + 1];
-        return climbStairsHelper(n, dp);
-        
+        int dp[] = new int[n + 1];
+        climbStairsHelper(n, dp);
+
+        return dp[n];
+
     }
 
-    public int climbStairsHelper(int n, Integer dp[]) {
+    public int climbStairsHelper(int n, int dp[]) {
 
         if(n == 0) {
             return 1;
@@ -15,11 +17,15 @@ class Solution {
             return 0;
         }
 
-        if(dp[n] != null) {
+        if(dp[n] != 0) {
             return dp[n];
         }
 
-        return dp[n] = climbStairsHelper(n - 1, dp) + climbStairsHelper(n - 2, dp);
+        dp[n] = climbStairsHelper(n - 1, dp) + climbStairsHelper(n - 2, dp);
+
+        return dp[n];
         
     }
+
+
 }
