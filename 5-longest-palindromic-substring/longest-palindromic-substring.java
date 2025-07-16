@@ -1,51 +1,38 @@
 class Solution {
+
     public String longestPalindrome(String s) {
+        int n = s.length(), maxLen = 0;
+        String res = "";
 
-        int n = s.length();
-        if(n == 1) {
-            return s;
-        }
+        for(int i = 0; i < n; i++) {
+            int l = i, r = i;
 
-        int maxLen = 0;
-        String ans = "";
-
-        for(int i = 1; i < n; i++) {
             //odd length
-            int l = i - 1, r = i + 1;
-            while(l >= 0 && r < n) {
-                if(s.charAt(l) == s.charAt(r)) {
-                    l--;
-                    r++;
-                } else {
-                    break;
+            while(l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                if(maxLen < (r - l + 1)) {
+                    maxLen = r - l + 1;
+                    res = s.substring(l, r + 1);
                 }
-            }
-            if(maxLen < (r - l - 1)) {
-                maxLen = (r -l - 1);
-                ans = s.substring(l + 1, r);
+                l--;
+                r++;
             }
 
-            //e lvenength
-            if(s.charAt(i) == s.charAt(i - 1)) {
-                l = i - 2;
-                r = i + 1;
-                while(l >= 0 && r < n) {
-                    if(s.charAt(l) == s.charAt(r)) {
-                        l--;
-                        r++;
-                    } else {
-                        break;
-                    }
-                }
+            l = i;
+            r = i + 1;
+            System.out.println(maxLen);
 
-                if(maxLen < (r - l - 1)) {
-                    maxLen = (r -l - 1);
-                    ans = s.substring(l + 1, r);
+            //even length
+            while(l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                if(maxLen < (r - l + 1)) {
+                    maxLen = r - l + 1;
+                    res = s.substring(l, r + 1);
+                    System.out.println(res);
                 }
+                l--;
+                r++;
             }
         }
 
-        return ans;
-        
+        return res;
     }
 }
