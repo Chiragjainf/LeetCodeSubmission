@@ -1,37 +1,26 @@
 class Solution {
-    int ans = Integer.MIN_VALUE;
     public int maxProduct(int[] nums) {
 
-        int mn = nums[0], mx = nums[0], ans = nums[0];
+        int maxProduct = nums[0], minProduct = nums[0];
 
-        for(int i = 1; i < nums.length; i++) {
+        int n = nums.length, res = nums[0];
+
+        for(int i = 1; i < n; i++) {
+
             if(nums[i] < 0) {
-                int temp = mn;
-                mn = mx;
-                mx = temp;
+                int temp = maxProduct;
+                maxProduct = minProduct;
+                minProduct = temp;
             }
-            mx = Math.max(nums[i], mx * nums[i]);
-            mn = Math.min(nums[i], mn * nums[i]);
-            ans = Math.max(ans, mx);
+
+            maxProduct = Math.max(nums[i], maxProduct * nums[i]);
+            minProduct = Math.min(nums[i], minProduct * nums[i]);
+
+            res = Math.max(res, maxProduct);
+            
         }
 
-        return ans;
-    }
-
-
-    public void helper(int[] nums, int i, int curr) {
+        return res;
         
-        if( i >= nums.length) {
-            return;
-        }
-
-
-        ans = Math.max(ans, curr);
-
-        helper(nums, i + 1, curr * nums[i]);
-        helper(nums, i + 1, curr);
     }
-
-
-
 }
