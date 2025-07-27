@@ -1,7 +1,29 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        Integer dp[][] = new Integer[nums.length][nums.length + 1];
-        return helper(nums, 0, -1, nums.length, dp);
+
+        if(nums.length == 0) {
+            return 0;
+        }
+
+        int dp[] = new int[nums.length];
+
+        Arrays.fill(dp, 1);
+
+        int res = 1;
+
+        for(int i = 1; i < nums.length; i++) {
+            for(int j = i - 1; j >= 0; j--) {
+                if(nums[j] < nums[i]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                }
+            }
+            res = Math.max(res, dp[i]);
+        }
+
+        return res;
+
+        // Integer dp[][] = new Integer[nums.length][nums.length + 1];
+        // return helper(nums, 0, -1, nums.length, dp);
     }
 
 
