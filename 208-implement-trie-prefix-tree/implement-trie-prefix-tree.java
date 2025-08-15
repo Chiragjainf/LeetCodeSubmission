@@ -1,55 +1,59 @@
-class TrieNode {
-    HashMap<Character, TrieNode> childrens;
-    boolean endOfWord = false;
-    TrieNode(HashMap<Character, TrieNode> children, boolean endOfWord) {
-        this.childrens = children;
-        this.endOfWord = endOfWord;
-    }
-}
-
 class Trie {
     TrieNode root;
     public Trie() {
-        root = new TrieNode(new HashMap<>(), false);
+        root = new TrieNode();
     }
     
     public void insert(String word) {
         TrieNode curr = root;
-        for(char c: word.toCharArray()) {
-            if(!curr.childrens.containsKey(c)) {
-                TrieNode node = new TrieNode(new HashMap<>(), false);
-                curr.childrens.put(c, node);
+        for(char c : word.toCharArray()) {
+            if(curr.children.containsKey(c)) {
+                curr = curr.children.get(c);
+            } else {
+                TrieNode newNode = new TrieNode();
+                curr.children.put(c, newNode);
+                curr = newNode;
             }
-            curr = curr.childrens.get(c);
         }
         curr.endOfWord = true;
-        
+    
     }
     
     public boolean search(String word) {
         TrieNode curr = root;
-        for(char c: word.toCharArray()) {
-            if(!curr.childrens.containsKey(c)) {
+        for(char c : word.toCharArray()) {
+            if(!curr.children.containsKey(c)) {
                 return false;
+            } else {
+                curr = curr.children.get(c);
             }
-            curr = curr.childrens.get(c);
         }
         return curr.endOfWord == true ? true : false;
     }
     
     public boolean startsWith(String prefix) {
-
         TrieNode curr = root;
-        for(char c: prefix.toCharArray()) {
-            if(!curr.childrens.containsKey(c)) {
+        for(char c : prefix.toCharArray()) {
+            if(!curr.children.containsKey(c)) {
                 return false;
+            } else {
+                curr = curr.children.get(c);
             }
-            curr = curr.childrens.get(c);
         }
         return true;
-        
     }
 }
+
+class TrieNode {
+    Map<Character,TrieNode> children;
+    boolean endOfWord;
+
+    TrieNode() {
+        children = new HashMap<>();
+        endOfWord = false;
+    }
+}
+
 
 /**
  * Your Trie object will be instantiated and called as such:
