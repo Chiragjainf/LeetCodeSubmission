@@ -1,86 +1,106 @@
 class Solution {
-
-    TrieNode root;
-    Set<String> res;
-    public Solution() {
-        res = new HashSet<>();
-        root = new TrieNode(new HashMap<>(), false);
-    }
-    
-
-
     public List<String> findWords(char[][] board, String[] words) {
-
-        for(String word: words) {
-            insert(word);
+        Trie trie = new Trie();
+        for(String word : words) {
+            trie.insert(word);
         }
-
 
         int m = board.length, n = board[0].length;
+
         boolean vis[][] = new boolean[m][n];
+
+        TrieNode root = trie.root;
+        Set<String> res = new HashSet<>();
+
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                search(board, i, j, m, n, root, vis, "");
+                if(root.children.containsKey(board[i][j])) {
+                    findWordsHelper(board, root, i, j, m ,n, "", res, vis);
+                }
             }
-        }    
-        return new ArrayList<>(res);
-    }
-
-    public void insert(String word) {
-        TrieNode curr = root;
-        for(char c: word.toCharArray()) {
-            if(!curr.childrens.containsKey(c)) {
-                TrieNode node = new TrieNode(new HashMap<>(), false);
-                curr.childrens.put(c, node);
-            }
-            curr = curr.childrens.get(c);
         }
-        curr.endOfWord = true;
-        
+
+        //findWordsHelper(board, root.children.get(board[r][c]), r + 1, c, m , n, temp + board[r][c], res);
+        return new ArrayList<>(res);
+
     }
 
-    public void search(char[][] board, int r, int c, int m, int n, TrieNode root, boolean vis[][], String temp) {
-
-
-        if(r < 0 || c < 0 || r >= m || c >= n || vis[r][c] == true || !root.childrens.containsKey(board[r][c])) {
+    public void findWordsHelper(char[][] board, TrieNode root, int r , int c , int m, int n, String temp, Set<String> res, boolean vis[][]) {
+        
+        if(r < 0 || c < 0 || r >= m || c >= n || !root.children.containsKey(board[r][c]) || vis[r][c] == true) {
             return;
         }
-        TrieNode curr = root;
-        char ch = board[r][c];
-        vis[r][c] = true;
-        curr = curr.childrens.get(ch);
-        
-        if(curr.endOfWord == true) {
-            res.add(temp + ch);
+
+        //System.out.println(temp);
+
+        if(root.children.get(board[r][c]).endOfWord == true) {
+            res.add(temp + board[r][c]);
         }
 
-        search(board, r + 1, c, m, n, curr, vis, temp + ch);
-        search(board, r - 1, c, m, n, curr, vis, temp + ch);
-        search(board, r , c  + 1, m, n, curr, vis, temp + ch);
-        search(board, r , c - 1, m, n, curr, vis, temp + ch);
-        vis[r][c] = false; 
+        vis[r][c] = true;
 
+        findWordsHelper(board, root.children.get(board[r][c]), r + 1, c, m , n, temp + board[r][c], res, vis);
+        findWordsHelper(board, root.children.get(board[r][c]), r - 1, c, m , n, temp + board[r][c], res, vis);
+        findWordsHelper(board, root.children.get(board[r][c]), r, c + 1, m , n, temp + board[r][c], res, vis);
+        findWordsHelper(board, root.children.get(board[r][c]), r, c - 1, m , n, temp + board[r][c], res, vis);
+
+        vis[r][c] = false;
     }
-    
-    // public boolean search(String word) {
-    //     TrieNode curr = root;
-    //     for(char c: word.toCharArray()) {
-    //         if(!curr.childrens.containsKey(c)) {
-    //             return false;
-    //         }
-    //         curr = curr.childrens.get(c);
-    //     }
-    //     return curr.endOfWord == true ? true : false;
-    // }
-    
 }
 
 
+class Trie {
+    TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String word) {
+        TrieNode curr = root;
+        for(char c : word.toCharArray()) {
+            if(curr.children.containsKey(c)) {
+                curr = curr.children.get(c);
+            } else {
+                TrieNode newNode = new TrieNode();
+                curr.children.put(c, newNode);
+                curr = newNode;
+            }
+        }
+        curr.endOfWord = true;
+    
+    }
+    
+    public boolean search(String word) {
+        TrieNode curr = root;
+        for(char c : word.toCharArray()) {
+            if(!curr.children.containsKey(c)) {
+                return false;
+            } else {
+                curr = curr.children.get(c);
+            }
+        }
+        return curr.endOfWord == true ? true : false;
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        for(char c : prefix.toCharArray()) {
+            if(!curr.children.containsKey(c)) {
+                return false;
+            } else {
+                curr = curr.children.get(c);
+            }
+        }
+        return true;
+    }
+}
+
 class TrieNode {
-    HashMap<Character, TrieNode> childrens;
-    boolean endOfWord = false;
-    TrieNode(HashMap<Character, TrieNode> children, boolean endOfWord) {
-        this.childrens = children;
-        this.endOfWord = endOfWord;
+    Map<Character,TrieNode> children;
+    boolean endOfWord;
+
+    TrieNode() {
+        children = new HashMap<>();
+        endOfWord = false;
     }
 }
