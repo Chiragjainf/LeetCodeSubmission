@@ -1,6 +1,5 @@
 class Solution {
     public void rotate(int[][] matrix) {
-
         int left = 0, right = matrix[0].length - 1;
 
         while(left < right) {
@@ -21,6 +20,5 @@ class Solution {
             left++;
             right--;
         }
-        
     }
 }
