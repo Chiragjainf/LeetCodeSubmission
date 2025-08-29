@@ -42,12 +42,12 @@ class Solution {
             List<String> curr = queries.get(i);
 
             if(!hm.containsKey(curr.get(0))|| !hm.containsKey(curr.get(1))) {
-                res[i] = -1;
+                res[i] = -1.0;
             } else {
                 int first = hm.get(curr.get(0));
                 int second = hm.get(curr.get(1));
 
-                res[i] = dfs(adj, first, second, new boolean[cnt]);
+                res[i] = dfs(adj, first, second, new boolean[cnt], 1.0);
             }
         }
 
@@ -55,22 +55,19 @@ class Solution {
 
     }
 
-    public double dfs(List<Node> adj[], int src, int des, boolean vis[]) {
-        
+    public double dfs(List<Node> adj[], int src, int des, boolean vis[], double ans) {
         vis[src] = true;
 
         if(src == des ) {
-            return 1.0;
+            return ans;
         }
 
-
-        //double weight = 1.0;
         for(Node currNode: adj[src]) {
             int n = currNode.node;
             if(!vis[n]) {
-                double ans = dfs(adj, n, des, vis);
-                if(ans != -1.0) {
-                    return ans * currNode.value;
+                double k =  dfs(adj, n, des, vis, ans * currNode.value);
+                if(k != -1.0) {
+                    return k;
                 }
             }
         }
