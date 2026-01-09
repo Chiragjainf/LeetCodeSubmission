@@ -1,8 +1,8 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int me = nums[0], cnt = 1;
+        int me = Integer.MIN_VALUE, cnt = 0;
 
-        for(int i = 1; i < nums.length; i++) {
+        for(int i = 0; i < nums.length; i++) {
             if(me == nums[i]) {
                 cnt++;
             }else if(cnt == 0) {
