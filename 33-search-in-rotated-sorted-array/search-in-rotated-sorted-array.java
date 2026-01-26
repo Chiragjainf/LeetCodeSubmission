@@ -6,22 +6,22 @@ class Solution {
 
 
         while(l <= r) {
-
+            
             int mid = l + (r -l) / 2;
 
             if(nums[mid] == target) {
                 return mid;
             } else if(nums[l] > nums[mid]) {     //second half
-                if (target < nums[mid] || target > nums[r]) {
-                    r = mid - 1;
-                } else {
+                if(target > nums[mid] && target <= nums[r]) {
                     l = mid + 1;
+                } else {
+                    r = mid - 1;
                 }
             } else {     //first half
-                if (target > nums[mid] || target < nums[l]) {
-                    l = mid + 1;
-                } else {
+                if(target < nums[mid] && target >= nums[l]) {
                     r = mid - 1;
+                } else {
+                    l = mid + 1;
                 }
             }
         }
