@@ -1,6 +1,6 @@
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-        int l = weights[0], res = -1;
+        int l = Arrays.stream(weights).max().getAsInt(), res = -1;
 
         int r = Arrays.stream(weights).sum();
 
